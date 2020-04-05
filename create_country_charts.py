@@ -14,6 +14,10 @@ def create_charts():
         os.mkdir("images")
     # read the covid country data
     df = pd.read_csv('data/covid_country.csv')
+    # create a world summary chart
+    world = df.drop(['Country'], axis=1).groupby('Date').sum().reset_index()
+    # treat the world as a country
+    create_country_charts(world, 'World')
     # get the list of countries and create charts for each
     countries = df['Country'].unique()
     for country in countries:
