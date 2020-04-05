@@ -8,17 +8,20 @@ layout_font=dict(
 )
 
 
-def create_country_charts():
+def create_charts():
     # create the images directory
     if not os.path.exists("images"):
         os.mkdir("images")
     # read the covid country data
     df = pd.read_csv('data/covid_country.csv')
-    create_canada_charts(df)
+    # get the list of countries and create charts for each
+    countries = df['Country'].unique()
+    for country in countries:
+        create_country_charts(df[df['Country'] == country], country)
 
 
-def create_canada_charts(df):
-    canada = df[df['Country'] == 'Canada']
+def create_country_charts(df, country):
+    print(country + '...')
     # create a scatter plot with two y axes
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     # update the layout
@@ -46,7 +49,7 @@ def create_canada_charts(df):
                     text='Total Confirmed Cases'
                 )),
             title=dict(
-                text='Canada',
+                text=country,
                 font=dict(
                     size=24
                 )
@@ -59,8 +62,8 @@ def create_canada_charts(df):
     ))
     # add the trace for new cases
     fig.add_trace(
-        go.Scatter(x=canada.Date,
-                   y=canada['New Confirmed Cases'],
+        go.Scatter(x=df.Date,
+                   y=df['New Confirmed Cases'],
                    mode='lines+markers',
                    name='New'
                    ),
@@ -68,16 +71,16 @@ def create_canada_charts(df):
     )
     # add the trace for cumulative confirmed cases
     fig.add_trace(
-        go.Scatter(x=canada.Date,
-                   y=canada['Confirmed Cases'],
+        go.Scatter(x=df.Date,
+                   y=df['Confirmed Cases'],
                    mode='lines+markers',
                    name='Total'
                    ),
         secondary_y=True,
     )
 
-    fig.write_image('images/canada_cases.png')
+    fig.write_image('images/{}_cases.png'.format(country.replace(' ', '-')))
 
 
 if __name__ == "__main__":
-    create_country_charts()
+    create_charts()
