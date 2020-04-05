@@ -37,7 +37,7 @@ def create_country_charts(df, country):
             yaxis=dict(
                 tickformat=',',
                 title=dict(
-                    text='New Confirmed Cases'
+                    text='<span style="color:blue">New</span> Confirmed Cases'
                 )
             ),
             yaxis2=dict(
@@ -46,7 +46,7 @@ def create_country_charts(df, country):
                 ticklen=10,
                 tickformat=',',
                 title=dict(
-                    text='Total Confirmed Cases'
+                    text='<span style="color:red">Total</span> Confirmed Cases'
                 )),
             title=dict(
                 text=country,
@@ -57,7 +57,10 @@ def create_country_charts(df, country):
             legend=dict(
                 title='<b> Cases</b>',
                 x=0.01,
-                y=0.99
+                y=0.99,
+                font=dict(
+                    size=14
+                )
             )
     ))
     # add the trace for new cases
