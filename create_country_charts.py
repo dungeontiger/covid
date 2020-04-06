@@ -1,5 +1,5 @@
 import pandas as pd
-import os
+import os, datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 
@@ -26,6 +26,7 @@ def create_charts():
 
 def create_country_charts(df, country):
     print(country + '...')
+    now = datetime.datetime.now()
     # create a scatter plot with two y axes
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     # update the layout
@@ -36,10 +37,14 @@ def create_country_charts(df, country):
             width=1200,
             height=800,
             xaxis=dict(
-                tickformat='%d %b (%a)'
+                tickformat='%d %b (%a)',
+                ticklen=5,
+                ticks='outside',
+                tickcolor='#ffffff'
             ),
             yaxis=dict(
                 tickformat=',',
+                rangemode='nonnegative',
                 title=dict(
                     text='<span style="color:blue">New</span> Confirmed Cases'
                 )
@@ -48,18 +53,19 @@ def create_country_charts(df, country):
                 showgrid=False,
                 ticks='outside',
                 ticklen=10,
+                rangemode='nonnegative',
                 tickformat=',',
                 title=dict(
                     text='<span style="color:red">Total</span> Confirmed Cases'
                 )),
             title=dict(
-                text=country,
+                text='Confirmed Cases: {}'.format(country),
                 font=dict(
                     size=24
                 )
             ),
             legend=dict(
-                title='<b> Cases</b>',
+                title='<b style="font-size:14"> Cases</b>',
                 x=0.01,
                 y=0.99,
                 font=dict(
@@ -84,6 +90,45 @@ def create_country_charts(df, country):
                    name='Total'
                    ),
         secondary_y=True,
+    )
+
+    # add a footer
+    fig.add_annotation(
+        y=0,
+        x=0,
+        showarrow=False,
+        xref='paper',
+        yref='paper',
+        yshift=-50,
+        text='Source of data: John Hopkins (https://github.com/CSSEGISandData/COVID-19)',
+        font=dict(
+            size=10
+        )
+    )
+    fig.add_annotation(
+        y=0,
+        x=0,
+        showarrow=False,
+        xref='paper',
+        yref='paper',
+        yshift=-65,
+        text='Produced on {} at {} EST.'.format(now.strftime('%a, %b %d, %Y'), now.strftime('%H:%M')),
+        font=dict(
+            size=10
+        )
+    )
+    fig.add_annotation(
+        y=0,
+        x=0,
+        showarrow=False,
+        xref='paper',
+        yref='paper',
+        yshift=-65,
+        xshift=900,
+        text='Provided by Stephen D. Gibson',
+        font=dict(
+            size=10
+        )
     )
 
     fig.write_image('images/{}_cases.png'.format(country.replace(' ', '-')))
