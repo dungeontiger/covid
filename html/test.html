@@ -9,15 +9,36 @@
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script>
         $(document).ready(function() {
-            // make a get request for the canada spec and draw it when ready
-            $.getJSON('https://raw.githubusercontent.com/dungeontiger/covid/master/specs/Canada_cases.json', function(spec) {
-                Plotly.plot('chartContainer', spec.data, spec.layout);
+            // get the current country, for now Canada
+            var country = 'Canada'
+            // get the list of countries and populate a dropdown
+            $.getJSON('https://raw.githubusercontent.com/dungeontiger/covid/master/specs/countries.json', function(data) {
+                for (c in data) {
+                    if (data[c] == country) {
+                        $('#countrySelect').append('<option selected value="' + data[c].replace(' ', '-') + '">' + data[c] + '</option>\n');
+                    } else {
+                        $('#countrySelect').append('<option value="' + data[c].replace(' ', '-')  + '">' + data[c] + '</option>\n');
+                    }
+                }
             });
+            drawChart(country);
         });
+
+        function onSelectCountry() {
+            // get the selected country and draw it
+            drawChart($('#countrySelect option:selected').val());
+        }
+
+        function drawChart(country) {
+            // make a get request for the canada spec and draw it when ready
+            $.getJSON('https://raw.githubusercontent.com/dungeontiger/covid/master/specs/' + country + '_cases.json', function(spec) {
+                Plotly.newPlot('chartContainer', spec.data, spec.layout);
+            });
+        }
     </script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">COVID-19 by DT</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -26,7 +47,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="index.html">Home<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="index.html">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="javascript:drawChart('World')">World</a>
@@ -37,26 +58,23 @@
           <li class="nav-item">
             <a class="nav-link" href="javascript:drawChart('US')">United States</a>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Other</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="javascript:drawChart('Canada')">Canada</a>
-              <a class="dropdown-item" href="javascript:drawChart('US')">United States</a>
-              <a class="dropdown-item" href="javascript:drawChart('China')">China</a>
-              <a class="dropdown-item" href="javascript:drawChart('Italy')">Italy</a>
-              <a class="dropdown-item" href="javascript:drawChart('Brazil')">Brazil</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="all_countries.html">Other Countries...</a>
-            </div>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
-          </li>
+            <li>
+                <select id="countrySelect" class="custom-select" onchange="onSelectCountry()">
+                </select>
+            </li>
         </ul>
+        <a class="nav-item" href="about.html">About</a>
       </div>
     </nav>
 
-
-    <div id="chartContainer"></div>
+    <div class="container">
+        <h2 style="margin-top:10px">(TEST) COVID-19 Charts by DungeonTiger</h2>
+        <h4><i>Better than a Dashboard!</i></h4>
+        <div id="chartContainer"></div>
+    </div>
+    <footer class="container" style="margin-bottom:10px">
+        <hr/>
+        <small class="text-muted">Contact <a href="mailto:stephen.d.gibson@gmail.com">Stephen D. Gibson</a></small>
+    </footer>
 </body>
 </html>

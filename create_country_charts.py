@@ -1,3 +1,4 @@
+import json
 import pandas as pd
 import os, datetime
 import plotly.graph_objects as go
@@ -18,8 +19,12 @@ def create_charts():
     world = df.drop(['Country'], axis=1).groupby('Date').sum().reset_index()
     # treat the world as a country
     create_country_charts(world, 'World')
-    # get the list of countries and create charts for each
+    # get the list of countries
     countries = df['Country'].unique()
+    # create a JSON list of countries and save it for country selection
+    with open('specs/countries.json','w') as f:
+        json.dump(countries.tolist(), f)
+    # create charts for each country
     for country in countries:
         create_country_charts(df[df['Country'] == country], country)
 
