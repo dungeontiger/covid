@@ -132,6 +132,8 @@ def create_country_charts(df, country):
     )
 
     fig.write_image('images/{}_cases.png'.format(country.replace(' ', '-')))
+    with open('specs/{}_cases.json'.format(country.replace(' ', '-')), 'w') as f:
+        f.write(fig.to_json())
 
 
 if __name__ == "__main__":
