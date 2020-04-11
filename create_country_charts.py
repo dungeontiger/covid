@@ -32,6 +32,7 @@ def create_country_charts(df, country):
     # update the layout
     fig.update_layout(
         dict(
+            hovermode='x',
             plot_bgcolor='#DBDCDE',
             font=layout_font,
             width=1200,
