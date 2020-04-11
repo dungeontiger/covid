@@ -40,14 +40,16 @@ def create_country_charts(df, country):
                 tickformat='%d %b (%a)',
                 ticklen=5,
                 ticks='outside',
-                tickcolor='#ffffff'
+                tickcolor='#ffffff',
+                showspikes=True
             ),
             yaxis=dict(
                 tickformat=',',
                 rangemode='nonnegative',
                 title=dict(
                     text='<span style="color:blue">New</span> Confirmed Cases'
-                )
+                ),
+                showspikes=True
             ),
             yaxis2=dict(
                 showgrid=False,
