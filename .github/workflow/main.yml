@@ -6,7 +6,7 @@ name: Daily Update
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
-    - cron:  '*/15 * * * *'
+    - cron:  '*/2 * * * *'
 
 jobs:
   daily_update:
