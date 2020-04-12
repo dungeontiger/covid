@@ -19,9 +19,11 @@ jobs:
         python-version: 3.8
     - name: Install Orca
       run: |
-        echo $PATH
-        docker pull quay.io/plotly/orca
-        docker run -i quay.io/plotly/orca graph --help
+        sudo apt update
+        sudo apt install nodejs
+        sudo apt install npm
+        nodejs -v
+        npm install -g electron@6.1.4 orca
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
