@@ -1,1 +1,0 @@
-how to unzip the mac binaries for orca to get this to work
