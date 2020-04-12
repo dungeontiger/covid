@@ -24,9 +24,13 @@ jobs:
         conda install -c plotly plotly-orca
     - name: Run the Update
       run: |
+        conda install -c plotly plotly-orca
         python update.py
     - name: Commit the Changes
       run: |
-        git status
+        git add .
+        git commit -m "automatic update"
+        git push
         
+
 
