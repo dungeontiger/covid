@@ -142,7 +142,7 @@ def create_country_charts(df, country):
     try:
         fig.write_image('images/{}_cases.png'.format(country.replace(' ', '-')))
     except ValueError as err:
-        print(err)
+        print("Orca fail")
     with open('specs/{}_cases.json'.format(country.replace(' ', '-')), 'w') as f:
         f.write(fig.to_json())
 
