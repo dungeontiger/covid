@@ -3,6 +3,8 @@ import pandas as pd
 import os, datetime
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+import pytz
+
 
 layout_font=dict(
     family='verdana, courier new'
@@ -31,7 +33,8 @@ def create_charts():
 
 def create_country_charts(df, country):
     print(country + '...')
-    now = datetime.datetime.now()
+    now_utc = pytz.utc.localize(datetime.datetime.utcnow())
+    est = now_utc.astimezone(pytz.timezone("America/Detroit"))
     # create a scatter plot with two y axes
     fig = make_subplots(specs=[[{"secondary_y": True}]])
     # update the layout
@@ -120,7 +123,7 @@ def create_country_charts(df, country):
         xref='paper',
         yref='paper',
         yshift=-65,
-        text='Produced on {} at {} EST.'.format(now.strftime('%a, %b %d, %Y'), now.strftime('%H:%M')),
+        text='Produced on {} at {} Eastern.'.format(est.strftime('%a, %b %d, %Y'), est.strftime('%H:%M')),
         font=dict(
             size=10
         )
