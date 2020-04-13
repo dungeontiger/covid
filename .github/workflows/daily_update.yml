@@ -4,7 +4,7 @@ name: Update Data and Output
 
 on:
   schedule:
-    - cron:  '0 8 * * *'
+    - cron:  '0 12 * * *'
 
 jobs:
   build:
