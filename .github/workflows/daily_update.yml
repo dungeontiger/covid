@@ -4,7 +4,7 @@ name: Update Data and Output
 
 on:
   schedule:
-    - cron:  '0 12 * * *'
+    - cron:  '*/5 * * * *'
 
 jobs:
   build:
@@ -38,6 +38,7 @@ jobs:
         git config --global user.name "Stephen D. Gibson"
         git add .
         git commit -m "automatic update"
+        git pull
         git push
 
 
