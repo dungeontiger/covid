@@ -29,16 +29,18 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    - name: Get latest just in case
+      run: |
+        git config --global user.email "stephen.d.gibson@gmail.com"
+        git config --global user.name "Stephen D. Gibson"
+        git pull
     - name: Run the Update
       run: |
         python update.py
     - name: Commit the Changes
       run: |
-        git config --global user.email "stephen.d.gibson@gmail.com"
-        git config --global user.name "Stephen D. Gibson"
         git add .
         git commit -m "automatic update"
-        git pull
         git push
 
 
